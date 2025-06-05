@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.guia.Controladores.ConfigurarPINController"
+      spacing="15" alignment="CENTER" style="-fx-padding: 20;">
+
+    <Label text="Configurar PIN" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="10" alignment="CENTER">
+        <Label text="ID Empleado:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtIdEmpleado" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                   promptText="Ingrese ID empleado" style="-fx-pref-width: 150;"/>
+
+        <Label text="Nuevo PIN (4 dígitos):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <PasswordField fx:id="txtNuevoPIN" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                       promptText="Nuevo PIN" style="-fx-pref-width: 150;"/>
+
+        <Label text="Confirmar PIN:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <PasswordField fx:id="txtConfirmarPIN" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                       promptText="Repita el PIN" style="-fx-pref-width: 150;"/>
+    </GridPane>
+
+    <Button text="Guardar PIN" onAction="#configurarPIN"
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 120;"/>
+</VBox>

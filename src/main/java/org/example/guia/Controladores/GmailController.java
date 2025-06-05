@@ -69,7 +69,7 @@ public class GmailController {
     private static final String APPLICATION_NAME = "Guia JavaFX Gmail"; // O tu nombre
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens"; // Directorio relativo para guardar credenciales
-    private static final String CREDENTIALS_FILE_PATH = "/client_secrets.json"; // Ruta DENTRO de resources
+    private static final String CREDENTIALS_FILE_PATH = "/client_secret.json"; // Ruta DENTRO de resources
     private static final String USER_ID = "me"; // Siempre 'me' para el usuario autenticado
     private static final List<String> SCOPES = Arrays.asList(GmailScopes.GMAIL_READONLY, GmailScopes.GMAIL_SEND);
 

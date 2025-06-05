@@ -17,7 +17,12 @@ module org.example.guia {
     requires com.google.api.client.extensions.jetty.auth;
     requires com.google.api.client.auth;
     requires com.google.api.client.extensions.java6.auth;
+    requires jakarta.mail;
+    requires java.sql;
+    requires jbcrypt;
 
     opens org.example.guia to javafx.fxml;
     exports org.example.guia;
+    exports org.example.guia.Controladores;
+    opens org.example.guia.Controladores to javafx.fxml;
 }

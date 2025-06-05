@@ -1,0 +1,125 @@
+/* styles.css */
+
+/* --- Estilos Generales --- */
+.root-pane {
+    -fx-background-color: #ECEFF1; /* Un gris azulado muy claro y suave */
+    -fx-font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+}
+
+/* --- Barra de Navegación --- */
+.navigation-bar {
+    -fx-background-color: #336B87; /* Catalina Blue */
+    -fx-padding: 12px 20px;
+    -fx-background-radius: 10px; /* Más redondeado */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 2);
+}
+
+.month-year-label {
+    -fx-text-fill: white;
+    -fx-font-size: 24px; /* Un poco más grande */
+    -fx-font-weight: bold;
+}
+
+.nav-button {
+    -fx-background-color: #90AFC5; /* Ariel */
+    -fx-text-fill: #2A3132; /* Charcoal */
+    -fx-font-weight: bold;
+    -fx-font-size: 18px; /* Iconos de flecha más grandes */
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 18px; /* Más padding horizontal */
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(42,49,50,0.05), 3, 0.05, 0, 1);
+}
+
+.nav-button:hover {
+    -fx-background-color: #A1C0D6; /* Ariel más claro */
+    -fx-effect: dropshadow(gaussian, rgba(42,49,50,0.15), 5, 0.1, 0, 2);
+}
+
+/* --- Cuadrícula del Calendario --- */
+.calendar-grid .label { /* Nombres de los días de la semana */
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #336B87; /* Catalina Blue */
+    -fx-padding: 10px 5px;
+}
+
+/* --- Celdas de Día (StackPane) --- */
+.day-cell {
+    -fx-background-color: white;
+    -fx-background-radius: 8px; /* Esquinas redondeadas */
+    -fx-border-radius: 8px;
+    -fx-border-color: #CFD8DC; /* Borde gris azulado muy claro */
+    -fx-border-width: 1px;
+    -fx-alignment: CENTER; /* Centra el Label del número */
+    -fx-min-height: 75px; /* Altura de celda */
+    -fx-min-width: 75px;  /* Anchura de celda */
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 2, 0.0, 0, 1); /* Sombra muy sutil */
+    -fx-padding: 5px; /* Espacio interno */
+}
+
+.day-cell:hover {
+    -fx-background-color: #E8F0F6; /* Azul muy claro hover */
+    -fx-border-color: #90AFC5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 5, 0.1, 0, 1);
+}
+
+.day-number-label {
+    -fx-font-size: 20px; /* Números de día más grandes */
+    -fx-text-fill: #2A3132; /* Charcoal */
+    /* -fx-padding: 5px; No es necesario si el StackPane lo alinea */
+}
+
+.event-indicator {
+    -fx-fill: #763626; /* Raw Umber para el punto de evento */
+    -fx-stroke: white; /* Borde blanco para el punto */
+    -fx-stroke-width: 1.5px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0, 0, 1); /* Sombra para el punto */
+}
+
+.day-cell-today {
+    -fx-background-color: #FFF1E8; /* Fondo cálido suave para hoy */
+    -fx-border-color: #763626; /* Borde Raw Umber */
+    -fx-border-width: 2.5px;
+}
+
+.day-cell-today .day-number-label { /* Número del día actual */
+    -fx-font-weight: bold;
+    -fx-text-fill: #763626; /* Color Raw Umber para el número */
+}
+
+/* --- Estilos para Diálogos --- */
+.dialog-pane {
+    -fx-font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+    -fx-border-color: #336B87;
+    -fx-border-width: 1.5px;
+    -fx-background-color: #FAFBFC;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0.2, 0, 3);
+}
+.dialog-pane .text-area { /* Para el contentText de Alert si es largo */
+    -fx-font-family: "Consolas", "Monaco", monospace;
+    -fx-font-size: 13px;
+}
+.dialog-pane .label {
+    -fx-text-fill: #2A3132;
+}
+.dialog-pane .button{
+    -fx-background-color: #90AFC5;
+    -fx-text-fill: #2A3132;
+    -fx-background-radius: 5px;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 6px 12px;
+}
+.dialog-pane .button:hover{
+    -fx-background-color: #A1C0D6;
+}
+.dialog-pane.header .header-panel {
+    -fx-background-color: #336B87;
+    -fx-padding: 12px 18px;
+}
+.dialog-pane.header .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+}
