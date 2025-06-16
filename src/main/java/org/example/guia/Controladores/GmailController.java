@@ -23,6 +23,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -35,7 +36,9 @@ import jakarta.mail.Session;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
+import javafx.stage.Stage;
 import org.example.guia.DTOs.EmailHeader; // Asegúrate que la ruta sea correcta
+import org.example.guia.Ventanas;
 
 import java.io.*; // Importar File, InputStream, InputStreamReader, etc.
 import java.nio.charset.StandardCharsets;
@@ -49,74 +52,132 @@ import java.util.Properties;
 
 public class GmailController {
 
-    // --- Componentes UI Principales ---
+    /** Botón para cargar la lista de correos electrónicos del usuario. */
     @FXML private Button loadEmailsButton;
+
+    /** Botón para abrir el panel de composición de un nuevo correo. */
     @FXML private Button composeButton;
+
+    /** Lista que muestra los encabezados de los correos cargados. */
     @FXML private ListView<EmailHeader> emailListView;
+
+    /** Visor para mostrar el contenido HTML del correo seleccionado. */
     @FXML private WebView emailContentView;
+
+    /** Indicador visual de progreso para mostrar carga en proceso. */
     @FXML private ProgressIndicator progressIndicator;
 
-    // --- Componentes UI para Composición ---
+    /** Panel que contiene los controles para escribir un nuevo correo. */
     @FXML private GridPane composePane;
+
+    /** Campo de texto para la dirección del destinatario del correo. */
     @FXML private TextField toField;
+
+    /** Campo de texto para el asunto del correo a enviar. */
     @FXML private TextField subjectField;
+
+    /** Área de texto para redactar el cuerpo del correo. */
     @FXML private TextArea bodyArea;
+
+    /** Botón para enviar el correo electrónico redactado. */
     @FXML private Button sendButton;
+
+    /** Botón para cancelar la composición y cerrar el panel de composición. */
     @FXML private Button cancelComposeButton;
+
+    /** Indicador visual que muestra el progreso del envío del correo. */
     @FXML private ProgressIndicator sendProgressIndicator;
 
-    // --- Configuración y Constantes API ---
-    private static final String APPLICATION_NAME = "Guia JavaFX Gmail"; // O tu nombre
+    /**
+     * Botón para volver atras
+     */
+    @FXML
+    private Button btnVolver;
+
+    /** Nombre de la aplicación que se muestra en la consola de Google API. */
+    private static final String APPLICATION_NAME = "Gmail";
+
+    /** Fábrica para parsear y generar objetos JSON. */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "tokens"; // Directorio relativo para guardar credenciales
-    private static final String CREDENTIALS_FILE_PATH = "/client_secret.json"; // Ruta DENTRO de resources
-    private static final String USER_ID = "me"; // Siempre 'me' para el usuario autenticado
+
+    /** Ruta relativa para almacenar las credenciales OAuth2 obtenidas. */
+    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+
+    /** Ruta dentro de resources donde se encuentra el archivo client_secret.json con las credenciales. */
+    private static final String CREDENTIALS_FILE_PATH = "/client_secret.json";
+
+    /** Identificador del usuario autenticado (siempre "me" para Gmail API). */
+    private static final String USER_ID = "me";
+
+    /** Lista de permisos que la aplicación solicitará al usuario (lectura y envío). */
     private static final List<String> SCOPES = Arrays.asList(GmailScopes.GMAIL_READONLY, GmailScopes.GMAIL_SEND);
 
-    // --- Estado ---
-    private Gmail service = null; // El servicio Gmail autenticado
-    private final ObservableList<EmailHeader> emailHeaders = FXCollections.observableArrayList();
-    private String currentApplicationUserId = "defaultUser"; // ID para guardar credenciales (¡IMPLEMENTAR OBTENCIÓN REAL!)
+    /** Servicio Gmail autenticado para hacer peticiones a la API. */
+    private Gmail service = null;
 
+    /** Lista observable para mantener actualizada la UI con los encabezados de correo. */
+    private final ObservableList<EmailHeader> emailHeaders = FXCollections.observableArrayList();
+
+    /** Identificador para diferenciar credenciales si la app maneja varios usuarios (pendiente implementación). */
+    private String currentApplicationUserId = "defaultUser";
+
+    /**
+     * Inicializa el controlador tras la carga del FXML.
+     * <p>
+     * Configura la lista de emails, personaliza la visualización de cada ítem,
+     * y define el comportamiento al seleccionar un correo.
+     * Además, oculta el panel de composición inicialmente.
+     * </p>
+     */
     @FXML
     public void initialize() {
+        // Vincula la lista observable al ListView para mostrar encabezados
         emailListView.setItems(emailHeaders);
 
-        // Personalizar celdas para mostrar EmailHeader de forma legible
+        // Define el formato visual de cada celda en la lista de emails
         emailListView.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(EmailHeader item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
-                    setGraphic(null); // Limpiar gráfico también
+                    setGraphic(null);
                 } else {
-                    // Usar el toString() del record/clase EmailHeader
                     setText(item.toString());
-                    // Podrías crear un layout más complejo aquí si quisieras
                 }
             }
         });
 
-        // Listener para cargar contenido al seleccionar email
+        // Listener para detectar selección de un email y cargar su contenido en el visor
         emailListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    if (newValue != null && !"ERROR".equals(newValue.id())) { // No cargar si es un mensaje de error
+                    if (newValue != null && !"ERROR".equals(newValue.id())) {
                         loadSelectedEmailContent(newValue.id());
                     } else {
                         if (emailContentView != null) {
-                            emailContentView.getEngine().loadContent(""); // Limpiar visor
+                            emailContentView.getEngine().loadContent("");
                         }
                     }
                 });
 
-        // Ocultar panel de composición inicialmente
+        // Oculta inicialmente el panel de composición de correos
         composePane.setVisible(false);
         composePane.setManaged(false);
     }
 
     // --- Carga de Emails ---
 
+    /**
+     * Manejador para la acción de cargar los correos electrónicos del usuario.
+     * <p>
+     * Deshabilita botones, muestra indicador de progreso, limpia la lista y
+     * el visor de contenido, y lanza una tarea en segundo plano para obtener
+     * los encabezados de los emails desde la API de Gmail.
+     * </p>
+     * <p>
+     * Al finalizar, actualiza la UI con los resultados o muestra un error.
+     * </p>
+     */
     @FXML
     private void handleLoadEmails() {
         progressIndicator.setVisible(true);
@@ -145,7 +206,7 @@ public class GmailController {
             System.err.println("Error al cargar emails:");
             error.printStackTrace();
             // Mostrar error en la lista
-            Platform.runLater(() -> // Asegurarse que se ejecuta en el hilo de UI
+            Platform.runLater(() -> // Asegurar ejecución en hilo UI
                     emailHeaders.add(new EmailHeader("ERROR", "System", "Error al cargar: " + error.getMessage(), "")));
             showAlert(AlertType.ERROR, "Error de Carga", "No se pudieron cargar los emails:\n" + error.getMessage());
         });
@@ -153,11 +214,21 @@ public class GmailController {
         new Thread(loadEmailsTask).start();
     }
 
+    /**
+     * Crea una tarea (Task) para cargar en background los encabezados de emails.
+     * <p>
+     * Obtiene el servicio Gmail autenticado, solicita hasta 25 mensajes, y extrae
+     * los campos relevantes (ID, remitente, asunto, snippet) para crear una lista
+     * de EmailHeader que será usada para actualizar la UI.
+     * </p>
+     *
+     * @return Tarea que devuelve la lista de encabezados de emails.
+     */
     private Task<List<EmailHeader>> createLoadEmailsTask() {
         return new Task<>() {
             @Override
             protected List<EmailHeader> call() throws Exception {
-                // Obtener servicio (se encarga de autenticar si es necesario)
+                // Obtener servicio (autenticación si necesario)
                 service = getGmailService();
                 if (service == null) {
                     throw new IOException("No se pudo inicializar el servicio de Gmail.");
@@ -166,7 +237,7 @@ public class GmailController {
                 System.out.println("Obteniendo mensajes...");
                 ListMessagesResponse response = service.users().messages()
                         .list(USER_ID)
-                        .setMaxResults(25L) // Cargar hasta 25 mensajes
+                        .setMaxResults(25L) // Limitar a 25 mensajes
                         .execute();
 
                 List<Message> messages = response.getMessages();
@@ -174,9 +245,7 @@ public class GmailController {
 
                 if (messages != null && !messages.isEmpty()) {
                     System.out.println("Mensajes encontrados: " + messages.size());
-                    // Idealmente usar Batch Request aquí para eficiencia
                     for (Message message : messages) {
-                        // Pedir solo los campos necesarios para la lista
                         Message msg = service.users().messages()
                                 .get(USER_ID, message.getId())
                                 .setFormat("metadata")
@@ -190,16 +259,24 @@ public class GmailController {
                     }
                 } else {
                     System.out.println("No se encontraron mensajes.");
-                    // Opcional: Añadir un item indicando que no hay mensajes
-                    // headers.add(new EmailHeader("EMPTY", "System", "No hay mensajes", ""));
+
                 }
                 return headers;
             }
         };
     }
 
-    // --- Visualización de Contenido ---
+// --- Visualización de Contenido ---
 
+    /**
+     * Carga y muestra el contenido completo del correo seleccionado.
+     * <p>
+     * Muestra un mensaje de carga mientras obtiene el contenido en segundo plano,
+     * luego renderiza el contenido HTML o texto en el WebView.
+     * </p>
+     *
+     * @param messageId ID del mensaje de Gmail cuyo contenido se desea cargar.
+     */
     private void loadSelectedEmailContent(String messageId) {
         if (service == null || emailContentView == null) {
             System.err.println("Servicio Gmail o WebView no disponible para cargar contenido.");
@@ -207,7 +284,7 @@ public class GmailController {
             return;
         }
 
-        progressIndicator.setVisible(true); // Usar el indicador general
+        progressIndicator.setVisible(true);
         WebEngine engine = emailContentView.getEngine();
         engine.loadContent("<html><body><i>Cargando contenido...</i></body></html>");
 
@@ -217,10 +294,10 @@ public class GmailController {
                 System.out.println("Obteniendo contenido completo para mensaje ID: " + messageId);
                 Message message = service.users().messages()
                         .get(USER_ID, messageId)
-                        .setFormat("full") // Pedir mensaje completo
+                        .setFormat("full")
                         .execute();
 
-                return findBodyContent(message.getPayload()); // Parsear y decodificar
+                return findBodyContent(message.getPayload());
             }
         };
 
@@ -228,7 +305,7 @@ public class GmailController {
             String bodyContent = loadContentTask.getValue();
             Platform.runLater(() -> {
                 if (bodyContent != null) {
-                    engine.loadContent(bodyContent, "text/html"); // Cargar HTML o texto preformateado
+                    engine.loadContent(bodyContent, "text/html");
                 } else {
                     engine.loadContent("<html><body>(No se encontró contenido legible)</body></html>");
                 }
@@ -249,35 +326,48 @@ public class GmailController {
         new Thread(loadContentTask).start();
     }
 
-    // --- Métodos de Ayuda para Parseo ---
+// --- Métodos de Ayuda para Parseo ---
 
+    /**
+     * Obtiene el contenido del cuerpo del mensaje en formato HTML o texto plano.
+     * <p>
+     * Prioriza la búsqueda de la parte "text/html". Si no existe, intenta con "text/plain".
+     * En caso de texto plano, convierte el contenido a HTML básico para su visualización.
+     * Si no encuentra ningún contenido compatible, devuelve un mensaje indicándolo.
+     * </p>
+     *
+     * @param payload El objeto MessagePart que contiene el cuerpo del mensaje.
+     * @return Contenido HTML listo para mostrar en un WebView.
+     */
     private String findBodyContent(MessagePart payload) {
         if (payload == null) return null;
 
-        // Prioridad 1: Buscar text/html
         String htmlBody = findMimePart(payload, "text/html");
         if (htmlBody != null) return htmlBody;
 
-        // Prioridad 2: Buscar text/plain
         String textBody = findMimePart(payload, "text/plain");
         if (textBody != null) {
-            // Convertir texto plano a HTML simple para mostrarlo en WebView
             return "<html><body><pre>" + escapeHtml(textBody) + "</pre></body></html>";
         }
 
-        // Si no se encuentra directamente, podría ser multipart sin alternativa clara
-        // Podríamos devolver un mensaje indicando que no se pudo renderizar
         System.out.println("No se encontró parte text/html o text/plain principal.");
         return "<html><body>(Contenido no soportado o vacío)</body></html>";
     }
 
+    /**
+     * Busca recursivamente en las partes del mensaje una parte MIME específica.
+     * <p>
+     * Decodifica el contenido Base64Url de la parte encontrada y lo devuelve como String UTF-8.
+     * </p>
+     *
+     * @param part Parte del mensaje donde buscar.
+     * @param mimeType Tipo MIME que se desea encontrar (ej. "text/html", "text/plain").
+     * @return Contenido decodificado o null si no se encontró.
+     */
     private String findMimePart(MessagePart part, String mimeType) {
         if (part == null) return null;
-        // System.out.println("Checking part MIME: " + part.getMimeType()); // Debug
 
-        // Si el tipo MIME coincide y hay datos en el cuerpo principal de esta parte
         if (mimeType.equals(part.getMimeType()) && part.getBody() != null && part.getBody().getData() != null) {
-            // System.out.println("Found matching part with data. Size: " + part.getBody().getSize()); // Debug
             try {
                 byte[] decodedBytes = Base64.getUrlDecoder().decode(part.getBody().getData());
                 return new String(decodedBytes, StandardCharsets.UTF_8);
@@ -287,36 +377,44 @@ public class GmailController {
             }
         }
 
-        // Si es multipart, buscar recursivamente en las subpartes
         if (part.getParts() != null && !part.getParts().isEmpty()) {
-            // System.out.println("Checking sub-parts (" + part.getParts().size() + ") of MIME: " + part.getMimeType()); // Debug
             for (MessagePart subPart : part.getParts()) {
                 String found = findMimePart(subPart, mimeType);
                 if (found != null) {
-                    return found; // Devolver el primero que se encuentre
+                    return found;
                 }
             }
-        } else if ("multipart/alternative".equals(part.getMimeType())) {
-            // A veces el body está vacío pero las partes sí tienen contenido, re-verificar
-            // System.out.println("Multipart/alternative with empty body? Checking parts again.");
-            // (El bucle anterior ya lo haría si parts != null)
         }
 
-
-        return null; // No encontrado en esta rama
+        return null;
     }
 
+    /**
+     * Escapa caracteres especiales para mostrar texto plano en HTML.
+     * <p>
+     * Convierte caracteres especiales en sus entidades HTML y convierte saltos de línea en &lt;br&gt;.
+     * </p>
+     *
+     * @param text Texto plano que se quiere escapar.
+     * @return Texto escapado para HTML.
+     */
     private String escapeHtml(String text) {
         if (text == null) return "";
-        // Reemplazos básicos para mostrar texto plano como preformateado en HTML
         return text.replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
                 .replace("'", "&#39;")
-                .replace("\n", "<br>"); // Convertir saltos de línea
+                .replace("\n", "<br>");
     }
 
+    /**
+     * Busca el valor de un encabezado específico dentro de la lista de encabezados.
+     *
+     * @param headers Lista de encabezados del mensaje.
+     * @param name Nombre del encabezado a buscar (ej. "Subject", "From").
+     * @return Valor del encabezado si se encuentra, o "N/A" si no.
+     */
     private String findHeaderValue(List<MessagePartHeader> headers, String name) {
         if (headers == null) return "N/A";
         for (MessagePartHeader header : headers) {
@@ -324,11 +422,17 @@ public class GmailController {
                 return header.getValue();
             }
         }
-        return "N/A"; // No encontrado
+        return "N/A";
     }
 
-    // --- Lógica de Composición y Envío ---
+// --- Lógica de Composición y Envío ---
 
+    /**
+     * Maneja la acción de mostrar el formulario para componer un nuevo correo.
+     * <p>
+     * Verifica que el servicio Gmail esté listo antes de permitir escribir un email.
+     * </p>
+     */
     @FXML
     private void handleComposeEmail() {
         if (service == null) {
@@ -340,6 +444,9 @@ public class GmailController {
         composePane.setManaged(true);
     }
 
+    /**
+     * Cancela la composición del correo y oculta el formulario.
+     */
     @FXML
     private void handleCancelCompose() {
         composePane.setVisible(false);
@@ -347,16 +454,25 @@ public class GmailController {
         clearComposeFields();
     }
 
+    /**
+     * Limpia los campos y restablece controles del formulario de composición.
+     */
     private void clearComposeFields() {
         toField.clear();
         subjectField.clear();
         bodyArea.clear();
-        // Resetear también botones e indicador de envío si estaban activos
         sendButton.setDisable(false);
         cancelComposeButton.setDisable(false);
         sendProgressIndicator.setVisible(false);
     }
 
+    /**
+     * Maneja el envío del correo electrónico.
+     * <p>
+     * Valida la dirección del destinatario, deshabilita botones,
+     * muestra indicador de progreso y lanza tarea en background para enviar el correo.
+     * </p>
+     */
     @FXML
     private void handleSendEmail() {
         String to = toField.getText();
@@ -367,7 +483,6 @@ public class GmailController {
             showAlert(AlertType.ERROR, "Error de Validación", "El campo 'Para' es inválido.");
             return;
         }
-        // Opcional: Validar asunto/cuerpo si se desea
 
         sendButton.setDisable(true);
         cancelComposeButton.setDisable(true);
@@ -378,7 +493,7 @@ public class GmailController {
         sendTask.setOnSucceeded(event -> {
             Platform.runLater(() -> {
                 showAlert(AlertType.INFORMATION, "Éxito", "¡Correo enviado correctamente!");
-                handleCancelCompose(); // Ocultar y limpiar
+                handleCancelCompose();
             });
         });
 
@@ -397,15 +512,22 @@ public class GmailController {
         new Thread(sendTask).start();
     }
 
+    /**
+     * Crea una tarea para enviar un correo electrónico utilizando la API de Gmail.
+     *
+     * @param to Destinatario del correo.
+     * @param subject Asunto del correo.
+     * @param body Cuerpo del mensaje.
+     * @return Tarea que devuelve true si el envío fue exitoso.
+     */
     private Task<Boolean> createSendEmailTask(String to, String subject, String body) {
         return new Task<>() {
-            // Dentro de createSendEmailTask().call()
             @Override
             protected Boolean call() throws Exception {
-                if (service == null) { // <--- CORREGIDO (usa el campo 'service')
+                if (service == null) {
                     throw new IllegalStateException("El servicio de Gmail no está disponible.");
                 }
-                String userEmail = findMyEmailAddress(); // Obtener email del usuario actual
+                String userEmail = findMyEmailAddress();
 
                 MimeMessage mimeMessage = createMimeMessage(to, userEmail, subject, body);
                 String encodedEmail = encodeMimeMessageToBase64url(mimeMessage);
@@ -414,31 +536,46 @@ public class GmailController {
                 Message googleApiMessage = new Message().setRaw(encodedEmail);
 
                 System.out.println("Enviando mensaje a: " + to + " desde " + userEmail);
-                // Asegurarse de usar USER_ID ("me") o el userEmail para el primer parámetro
-                service.users().messages().send(USER_ID, googleApiMessage).execute(); // <--- CORREGIDO (usa el campo 'service')
+                service.users().messages().send(USER_ID, googleApiMessage).execute();
                 System.out.println("Mensaje enviado (o en proceso).");
                 return true;
             }
         };
     }
 
-    // --- Métodos de Ayuda para MIME y Codificación ---
+// --- Métodos de Ayuda para MIME y Codificación ---
 
+    /**
+     * Crea un objeto MimeMessage con los datos proporcionados.
+     *
+     * @param to Destinatario.
+     * @param from Remitente.
+     * @param subject Asunto del correo.
+     * @param bodyText Cuerpo del mensaje.
+     * @return MimeMessage construido.
+     * @throws MessagingException En caso de error en la creación del mensaje.
+     */
     private MimeMessage createMimeMessage(String to, String from, String subject, String bodyText)
             throws MessagingException {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
         MimeMessage email = new MimeMessage(session);
-        // Poner 'from' aquí ayuda a la estructura MIME, pero Gmail usará la cuenta autenticada.
-        // Si 'from' es una dirección real y es un alias configurado, podría funcionar.
-        // Usar "me" o la dirección recuperada es más seguro si no manejas alias.
-        email.setFrom(new InternetAddress(from)); // 'from' debería ser la dirección del usuario o "me"
+
+        email.setFrom(new InternetAddress(from));
         email.addRecipient(jakarta.mail.Message.RecipientType.TO, new InternetAddress(to));
         email.setSubject(subject, "UTF-8");
-        email.setText(bodyText, "UTF-8"); // Establece Content-Type: text/plain; charset=UTF-8
+        email.setText(bodyText, "UTF-8");
         return email;
     }
 
+    /**
+     * Codifica un MimeMessage en una cadena Base64url para enviar a través de la API.
+     *
+     * @param mimeMessage Mensaje MIME a codificar.
+     * @return String con el mensaje codificado en Base64url.
+     * @throws IOException En caso de error al escribir el mensaje.
+     * @throws MessagingException En caso de error en el mensaje MIME.
+     */
     private String encodeMimeMessageToBase64url(MimeMessage mimeMessage) throws IOException, MessagingException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         mimeMessage.writeTo(buffer);
@@ -446,11 +583,21 @@ public class GmailController {
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
 
-    // --- Autenticación y Obtención del Servicio ---
+// --- Autenticación y Obtención del Servicio ---
 
+    /**
+     * Obtiene una instancia autenticada del servicio Gmail para la cuenta del usuario.
+     * <p>
+     * Si ya existe una instancia creada, la reutiliza.
+     * Implementa el flujo OAuth 2.0 para obtener las credenciales y construir el servicio.
+     * </p>
+     *
+     * @return Servicio Gmail autenticado.
+     * @throws IOException Si ocurre un error de I/O o falta el archivo de credenciales.
+     * @throws GeneralSecurityException Si ocurre un error relacionado con la seguridad.
+     */
     private Gmail getGmailService() throws IOException, GeneralSecurityException {
         if (this.service != null) {
-            // System.out.println("Reutilizando servicio Gmail existente.");
             return this.service;
         }
 
@@ -463,11 +610,6 @@ public class GmailController {
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-        // --- USAR ID DE USUARIO DE LA APP AQUÍ ---
-        // ¡NECESITAS IMPLEMENTAR CÓMO OBTENER ESTO DE TU LOGIN!
-        // this.currentApplicationUserId = getCurrentApplicationUserIdFromSomewhere();
-
-
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
@@ -477,10 +619,8 @@ public class GmailController {
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
 
         System.out.println("Iniciando autorización OAuth 2.0 para ID de credencial: " + currentApplicationUserId);
-        // Usar el ID de usuario de la app para almacenar/cargar la credencial correcta
         Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize(currentApplicationUserId);
         System.out.println("Autorización completada/cargada para: " + currentApplicationUserId);
-
 
         this.service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
@@ -490,43 +630,46 @@ public class GmailController {
     }
 
 
-    // --- Métodos Auxiliares ---
 
-    private String getCurrentApplicationUserIdFromSomewhere() {
-        // --- ¡IMPLEMENTACIÓN REAL NECESARIA AQUÍ! ---
-        // Obtener el ID/Username del usuario logueado en TU aplicación JavaFX
-        System.err.println("ADVERTENCIA: Usando 'defaultUser' para credenciales OAuth. Implementar lógica real.");
-        return "defaultUser"; // Placeholder - ¡Cambiar!
-    }
 
+
+    /**
+     * Obtiene la dirección de correo electrónico del usuario autenticado.
+     * <p>
+     * Lo ideal es obtenerlo a través del servicio Gmail luego de la autenticación,
+     * pero mientras tanto devuelve "me" que funciona para la mayoría de llamadas.
+     * </p>
+     *
+     * @return Dirección de correo electrónico del usuario autenticado o "me" como valor seguro.
+     */
     private String findMyEmailAddress() {
-        // --- ¡IMPLEMENTACIÓN REAL NECESARIA AQUÍ! ---
-        // Podrías obtenerlo del servicio después de autenticar:
-         /* try {
-              if(service != null) {
-                   return service.users().getProfile(USER_ID).execute().getEmailAddress();
-              }
-         } catch (IOException e) {
-              System.err.println("No se pudo obtener la dirección de email del perfil: " + e.getMessage());
-         } */
         System.err.println("ADVERTENCIA: findMyEmailAddress() devuelve 'me'.");
-        return "me"; // Usar "me" es lo más seguro y generalmente funciona bien
+        return "me";
     }
 
+    /**
+     * Muestra una alerta de JavaFX con título y contenido proporcionados.
+     * <p>
+     * Se asegura que la alerta se muestre en el hilo de interfaz de usuario.
+     * </p>
+     *
+     * @param alertType Tipo de alerta (información, error, etc.).
+     * @param title Título de la ventana de alerta.
+     * @param content Mensaje que se mostrará al usuario.
+     */
     private void showAlert(AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
-        // Asegurarse que se muestre en el hilo de UI si se llama desde Task
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(alert::showAndWait);
         } else {
             alert.showAndWait();
         }
     }
-
-    public void stopAnimation() {
-        // Si tuvieras un AnimationTimer para el fondo, lo detendrías aquí
+    public void volveratras(ActionEvent actionEvent) {
+        Stage stage = (Stage) btnVolver.getScene().getWindow();
+        Ventanas.cambiarVentana(stage, "Vistas/Pantalla_de_inicio.fxml", "Inicio");
     }
 }

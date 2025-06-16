@@ -1,0 +1,92 @@
+/* Estilos base */
+.root {
+    -fx-background-color: #2A3132;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Panel de login */
+.login-panel {
+    -fx-background-color: #90AFC5;
+    -fx-background-radius: 10px;
+    -fx-border-color: #2A3132;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 0);
+    -fx-pref-height: 335px;
+    -fx-pref-width: 353px;
+}
+
+/* Títulos */
+.app-title {
+    -fx-text-fill: #336B87;
+    -fx-font-size: 32px;
+    -fx-font-family: "DejaVu Serif Condensed";
+}
+
+.login-title {
+    -fx-fill: #336B87;
+    -fx-font-family: "Cambria Math";
+    -fx-font-size: 31px;
+}
+
+/* Campos de entrada */
+.login-field {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-color: #53A8BF;
+    -fx-padding: 0 10px;
+    -fx-pref-height: 40px;
+    -fx-pref-width: 249px;
+    -fx-font-size: 14px;
+}
+
+.login-field:focused {
+    -fx-border-color: #336B87;
+    -fx-border-width: 1.5px;
+}
+
+/* Checkbox */
+.remember-check {
+    -fx-text-fill: #555555;
+    -fx-font-size: 13px;
+}
+
+/* Botón de login */
+.login-button {
+    -fx-background-color: #763626;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-pref-height: 35px;
+    -fx-pref-width: 100px;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    -fx-background-color: #8C3F2D;
+}
+
+.login-button:pressed {
+    -fx-background-color: #5D2A1F;
+}
+
+/* Enlaces de registro */
+.register-label {
+    -fx-text-fill: #555555;
+    -fx-font-size: 13px;
+}
+
+.register-link {
+    -fx-text-fill: #53A8BF;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.register-link:hover {
+    -fx-text-fill: #336B87;
+}

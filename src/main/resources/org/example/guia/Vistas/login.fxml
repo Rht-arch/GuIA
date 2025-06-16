@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="480.0" prefWidth="640.0" stylesheets="@../Css/login.css"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.guia.Controladores.LoginController">
+    <children>
+        <!-- Panel de login -->
+        <Pane styleClass="login-panel" layoutX="154.0" layoutY="80.0">
+            <children>
+                <!-- Título del panel -->
+                <Text styleClass="login-title" layoutX="93.0" layoutY="59.0" text="Inicia Sesión"/>
+
+                <!-- Campos de texto -->
+                <TextField fx:id="txtEmail" styleClass="login-field" layoutX="52.0" layoutY="101.0"
+                           promptText="Usuario"/>
+
+                <PasswordField fx:id="txtPassword" styleClass="login-field" layoutX="52.0" layoutY="155.0"
+                               promptText="Contraseña"/>
+                <!-- Botón de login -->
+                <Button fx:id="btnLogin" styleClass="login-button" layoutX="134.0" layoutY="236.0"
+                        onMouseClicked="#iniciarSesion" text="Iniciar sesión"/>
+
+                <!-- Enlace de registro -->
+                <Label styleClass="register-label" layoutX="70.0" layoutY="288.0"
+                       text="¿No tienes cuenta?"/>
+                <Hyperlink fx:id="linkRegistro" styleClass="register-link" layoutX="187.0" layoutY="285.0"
+                           onMouseClicked="#irARegistro" text="Regístrate"/>
+            </children>
+        </Pane>
+
+        <!-- Título principal -->
+        <Label styleClass="app-title" layoutX="283.0" layoutY="40.0" text="GuIA"/>
+    </children>
+</Pane>

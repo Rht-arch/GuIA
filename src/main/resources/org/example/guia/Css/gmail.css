@@ -1,0 +1,129 @@
+/* Estilos base */
+.root {
+    -fx-background-color: #ECEFF1;
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+/* Encabezado */
+.header-container {
+    -fx-background-color: #336B87;
+    -fx-padding: 15px;
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 2);
+}
+
+.title-label {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Barra de herramientas */
+.toolbar-container {
+    -fx-spacing: 15px;
+    -fx-alignment: center;
+}
+
+/* Barra de navegación */
+.nav-container {
+    -fx-spacing: 10px;
+    -fx-alignment: center-left;
+    -fx-padding: 5px 0 0 0;
+}
+
+/* Botones */
+.nav-button {
+    -fx-background-color: #90AFC5;
+    -fx-text-fill: #2A3132;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+}
+
+.action-button {
+    -fx-background-color: #763626;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+}
+
+.primary-button {
+    -fx-background-color: #336B87;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+}
+
+.secondary-button {
+    -fx-background-color: #CFD8DC;
+    -fx-text-fill: #2A3132;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+}
+
+/* Efectos hover */
+.button:hover {
+    -fx-opacity: 0.9;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.1, 0, 1);
+}
+
+/* Área principal */
+.main-split-pane {
+    -fx-background-color: white;
+    -fx-padding: 10px;
+    -fx-background-radius: 8px;
+}
+
+.email-list {
+    -fx-background-color: white;
+    -fx-border-color: #CFD8DC;
+    -fx-border-radius: 8px;
+}
+
+.email-content {
+    -fx-background-color: white;
+    -fx-border-color: #CFD8DC;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px;
+}
+
+/* Panel de composición */
+.compose-panel {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-color: #CFD8DC;
+    -fx-border-width: 1px;
+    -fx-padding: 15px;
+}
+
+.compose-label {
+    -fx-text-fill: #2A3132;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.compose-field, .compose-textarea {
+    -fx-background-color: white;
+    -fx-border-color: #CFD8DC;
+    -fx-border-radius: 4px;
+    -fx-padding: 8px;
+}
+
+.compose-textarea {
+    -fx-font-family: "Consolas", monospace;
+}
+
+/* Indicadores de progreso */
+.progress-indicator {
+    -fx-progress-color: #336B87;
+}
+
+/* Contenedor de botones */
+.button-container {
+    -fx-padding: 5px 0 0 0;
+}

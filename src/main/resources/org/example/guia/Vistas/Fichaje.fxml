@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="800.0" prefWidth="1280.0" stylesheets="@../Css/fichaje.css"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.guia.Controladores.FichajeController">
+   <children>
+      <Pane styleClass="form-container" layoutX="599.0" layoutY="57.0">
+         <children>
+            <Button fx:id="volver" styleClass="nav-button" layoutX="20" layoutY="20"
+                    mnemonicParsing="false" onAction="#volveratras" text="Volver"/>
+
+            <TextField fx:id="numEmp" styleClass="input-field" layoutX="75.0" layoutY="175.0"
+                       onAction="#verificarEmpleado"/>
+            <Text styleClass="input-label" layoutX="75.0" layoutY="153.0" text="Nº Empleado"/>
+
+            <Text styleClass="input-label" layoutX="393.0" layoutY="153.0" text="PIN"/>
+            <PasswordField fx:id="pin" styleClass="input-field" layoutX="393.0" layoutY="175.0"/>
+
+            <Button fx:id="btnEntrada" styleClass="action-button" layoutX="109.0" layoutY="405.0"
+                    mnemonicParsing="false" onAction="#registrarEntrada" text="Entrada"/>
+            <Button fx:id="btnSalida" styleClass="action-button" layoutX="393.0" layoutY="405.0"
+                    mnemonicParsing="false" onAction="#registrarSalida" text="Salida"/>
+
+            <Button fx:id="configurarPin" styleClass="config-button" layoutX="528.0" layoutY="27.0"
+                    mnemonicParsing="false" onMouseClicked="#abrirConfigurarPIN" text="Configura tu pin"/>
+         </children>
+      </Pane>
+
+      <Text fx:id="hora" styleClass="time-display" layoutX="283.0" layoutY="158.0"/>
+      <Text styleClass="time-label" layoutX="55.0" layoutY="158.0" text="Hora Actual"/>
+      <TextArea fx:id="historial" styleClass="history-textarea" layoutX="55.0" layoutY="315.0"/>
+   </children>
+</Pane>

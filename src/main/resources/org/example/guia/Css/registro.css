@@ -1,0 +1,125 @@
+/* Estilos base con colores originales */
+.root {
+    -fx-background-color: #2A3132;  /* Fondo oscuro característico */
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-fit-to-width: true;
+    -fx-hbar-policy: never;
+}
+
+/* Contenedor principal con colores originales */
+.form-container {
+    -fx-background-color: #90AFC5;  /* Azul claro característico */
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #2A3132;      /* Borde oscuro */
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);
+    -fx-pref-width: 500;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+
+/* Título del formulario */
+.form-title {
+    -fx-text-fill: #336B87;         /* Azul oscuro para el título */
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 15 0;
+}
+
+/* Etiquetas */
+.form-label {
+    -fx-text-fill: #2A3132;         /* Texto oscuro */
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Campos de formulario */
+.form-field {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #53A8BF;      /* Azul turquesa para bordes */
+    -fx-border-width: 1;
+    -fx-padding: 8;
+    -fx-font-size: 14px;
+}
+
+.form-field:focused {
+    -fx-border-color: #336B87;      /* Azul más oscuro al enfocar */
+    -fx-border-width: 1.5;
+}
+
+/* Imagen de perfil */
+.profile-image {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.2, 0, 1);
+    -fx-border-color: #2A3132;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+/* Botón de imagen */
+.image-button {
+    -fx-background-color: white;
+    -fx-text-fill: #53A8BF;         /* Texto azul turquesa */
+    -fx-background-radius: 5;
+    -fx-padding: 8 15;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.image-button:hover {
+    -fx-background-color: #F0F0F0;  /* Fondo gris claro al pasar mouse */
+}
+
+/* Combo box de país */
+.country-combo {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-font-size: 14px;
+}
+
+/* Checkbox de términos */
+.terms-check {
+    -fx-font-size: 13px;
+    -fx-text-fill: #2A3132;         /* Texto oscuro */
+    -fx-wrap-text: true;
+    -fx-max-width: 400px;
+    -fx-padding: 15 0;
+}
+
+/* Botón de registro */
+.register-button {
+    -fx-background-color: #763626;  /* Marrón característico */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 10 25;
+    -fx-font-size: 16px;
+}
+
+.register-button:hover {
+    -fx-background-color: #8C3F2D;  /* Marrón más claro al pasar mouse */
+}
+
+/* Enlace de login */
+.login-label {
+    -fx-text-fill: #2A3132;         /* Texto oscuro */
+    -fx-font-size: 14px;
+}
+
+.login-link {
+    -fx-text-fill: #53A8BF;         /* Azul turquesa */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+}
+
+.login-link:hover {
+    -fx-text-fill: #336B87;         /* Azul más oscuro al pasar mouse */
+}

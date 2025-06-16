@@ -49,25 +49,25 @@ public class Empleado {
     public String getNombre() { return nombre.get(); }
     public void setNombre(String nombre) { this.nombre.set(nombre); }
 
-    String getApellido() { return apellido.get(); }
+    public String getApellido() { return apellido.get(); }
     public void setApellido(String apellido) { this.apellido.set(apellido); }
 
-    String getEmpresa() { return empresa.get(); }
+    public String getEmpresa() { return empresa.get(); }
     public void setEmpresa(String empresa) { this.empresa.set(empresa); }
 
-    String getEmail() { return email.get(); }
+    public String getEmail() { return email.get(); }
     public void setEmail(String email) { this.email.set(email); }
 
-    protected String getPassword() { return password.get(); }
+    public String getPassword() { return password.get(); }
     public void setPassword(String password) { this.password.set(password); }
 
-    String getCodigoPais() { return codigoPais.get(); }
+    public String getCodigoPais() { return codigoPais.get(); }
     private void setCodigoPais(String codigoPais) { this.codigoPais.set(codigoPais); }
 
-    String getTelefono() { return telefono.get(); }
+    public String getTelefono() { return telefono.get(); }
     private void setTelefono(String telefono) { this.telefono.set(telefono); }
 
-    String getImagenPerfil() { return imagenPerfil.get(); }
+    public String getImagenPerfil() { return imagenPerfil.get(); }
     private void setImagenPerfil(String imagenPerfil) {}
 
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<Pane fx:controller="org.example.guia.Controladores.PantallaDeInicio"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="800.0" prefWidth="1280.0" stylesheets="@../Css/pantalladeinicio.css"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <ImageView styleClass="background-image" fitHeight="856.0" fitWidth="1287.0"
+                   layoutX="-2.0" layoutY="-28.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../Imagenes/5509862.jpg" />
+            </image>
+        </ImageView>
+        <GridPane styleClass="button-grid" layoutX="415.0" layoutY="181.0"
+                  prefHeight="438.0" prefWidth="450.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="391.0" minWidth="10.0" prefWidth="200.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="243.0" minWidth="0.0" prefWidth="191.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="224.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="219.0" minHeight="10.0" prefHeight="214.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="fichaje" styleClass="menu-button" onMouseClicked="#abrirFichaje"
+                        mnemonicParsing="false" prefHeight="157.0" prefWidth="230.0">
+                    <graphic>
+                        <ImageView styleClass="button-icon" fitHeight="142.0" fitWidth="186.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Imagenes/fichaje.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="gmail" styleClass="menu-button" onMouseClicked="#abrirGmail"
+                        mnemonicParsing="false" prefHeight="157.0" prefWidth="230.0" GridPane.columnIndex="1">
+                    <graphic>
+                        <ImageView styleClass="button-icon" fitHeight="142.0" fitWidth="186.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Imagenes/gmail.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="agenda" styleClass="menu-button" onMouseClicked="#abrirAgenda"
+                        mnemonicParsing="false" prefHeight="157.0" prefWidth="230.0" GridPane.rowIndex="1">
+                    <graphic>
+                        <ImageView styleClass="button-icon" fitHeight="142.0" fitWidth="186.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Imagenes/agenda.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="erp" styleClass="menu-button" onMouseClicked="#abrirErp"
+                        mnemonicParsing="false" prefHeight="157.0" prefWidth="230.0"
+                        GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <graphic>
+                        <ImageView styleClass="button-icon" fitHeight="142.0" fitWidth="186.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Imagenes/erp.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+        </GridPane>
+    </children>
+</Pane>
+

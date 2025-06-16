@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../Css/erp.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.guia.Controladores.ERPController">
+    <children>
+        <WebView fx:id="odoo" styleClass="erp-webview"
+                 AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+
+        <ProgressIndicator fx:id="progress" styleClass="erp-progress"
+                           layoutX="375.0" layoutY="275.0"
+                           AnchorPane.bottomAnchor="275.0" AnchorPane.leftAnchor="375.0"
+                           AnchorPane.rightAnchor="375.0" AnchorPane.topAnchor="275.0"/>
+
+        <Button fx:id="btnVolver" styleClass="nav-button"
+                layoutX="20" layoutY="20"
+                mnemonicParsing="false" onAction="#volveratras"
+                text="Volver"/>
+    </children>
+</AnchorPane>

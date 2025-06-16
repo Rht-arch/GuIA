@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.guia.DTOs.Empleado;
-import org.example.guia.DTOs.EmpleadoDAO;
+import org.example.guia.DAOs.EmpleadoDAO;
 import org.example.guia.Ventanas;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -140,6 +140,6 @@ public class Registro {
     @FXML
     private void irALogin() {
         Stage stage = (Stage) linkLogin.getScene().getWindow();
-        Ventanas.cambiarVentana(stage,"login.fxml","Inicio de sesion");
+        Ventanas.cambiarVentana(stage,"Vistas/login.fxml","Inicio de sesion");
     }
 }

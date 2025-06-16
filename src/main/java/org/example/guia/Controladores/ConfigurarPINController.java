@@ -2,13 +2,12 @@ package org.example.guia.Controladores;
 
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import org.example.guia.DTOs.EmpleadoPinDAO;
+import org.example.guia.DAOs.EmpleadoPinDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.example.guia.DTOs.FichajeDAO;
 import org.example.guia.Ventanas;
 
 import java.sql.Connection;

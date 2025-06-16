@@ -1,4 +1,4 @@
-package org.example.guia.DTOs;
+package org.example.guia.DAOs;
 
 import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;

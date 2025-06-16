@@ -1,0 +1,41 @@
+/* Estilos base */
+.root {
+    -fx-background-color: #ECEFF1;
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+/* WebView principal */
+.erp-webview {
+    -fx-background-color: white;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 2);
+}
+
+/* Indicador de progreso */
+.erp-progress {
+    -fx-progress-color: #336B87;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 50px;
+}
+
+/* Botón de navegación */
+.nav-button {
+    -fx-background-color: #90AFC5;
+    -fx-text-fill: #2A3132;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 0, 1, 1, 0);
+}
+
+.nav-button:hover {
+    -fx-background-color: #A1C0D6;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 0, 2, 2, 0);
+}
+
+.nav-button:pressed {
+    -fx-background-color: #7F9DB3;
+    -fx-translate-y: 1px;
+}

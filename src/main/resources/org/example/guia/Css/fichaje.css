@@ -1,0 +1,96 @@
+/* Estilos base */
+.root {
+    -fx-background-color: #2A3132;
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+/* Contenedor del formulario */
+.form-container {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.1, 0, 2);
+    -fx-pref-height: 515px;
+    -fx-pref-width: 658px;
+}
+
+/* Etiquetas de texto */
+.input-label {
+    -fx-fill: #2A3132;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.time-label {
+    -fx-fill: #fcfcfc;
+    -fx-font-size: 35px;
+}
+
+.time-display {
+    -fx-fill: #fcfcfc;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+}
+
+/* Campos de entrada */
+.input-field {
+    -fx-background-color: white;
+    -fx-border-color: #90AFC5;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px;
+    -fx-font-size: 16px;
+    -fx-pref-width: 200px;
+}
+
+/* Área de historial */
+.history-textarea {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-color: #CFD8DC;
+    -fx-border-radius: 8px;
+    -fx-padding: 15px;
+    -fx-font-size: 14px;
+    -fx-pref-height: 440px;
+    -fx-pref-width: 471px;
+}
+
+/* Botones */
+.nav-button {
+    -fx-background-color: #90AFC5;
+    -fx-text-fill: #2A3132;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.action-button {
+    -fx-background-color: #336B87;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 16px;
+    -fx-pref-width: 115px;
+    -fx-pref-height: 25px;
+    -fx-cursor: hand;
+}
+
+.config-button {
+    -fx-background-color: #763626;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+}
+
+/* Estados de botones */
+.button:hover {
+    -fx-opacity: 0.9;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.1, 0, 1);
+}
+
+.button:disabled {
+    -fx-opacity: 0.7;
+}

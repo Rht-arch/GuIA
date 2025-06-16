@@ -8,17 +8,21 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:id="rootPane" prefHeight="650.0" prefWidth="800.0" styleClass="root-pane" stylesheets="@calendario.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.guia.Controladores.AgendaController">
+<BorderPane fx:id="rootPane" prefHeight="650.0" prefWidth="800.0" styleClass="root-pane" stylesheets="@../Css/calendario.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.guia.Controladores.AgendaController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
     <top>
         <HBox fx:id="navigationBar" alignment="CENTER" prefHeight="60.0" spacing="30.0" styleClass="navigation-bar" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#handleAnteriorAction" styleClass="nav-button" text="❮" /> <Label fx:id="mesAnioLabel" styleClass="month-year-label" text="Mes Año" />
-                <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#handleSiguienteAction" styleClass="nav-button" text="❯" /> </children>
+                <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#volveratras" styleClass="nav-button" text="Volver" />
+                <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#handleAnteriorAction" styleClass="nav-button" text="❮" />
+                <Label fx:id="mesAnioLabel" styleClass="month-year-label" text="Mes Año" />
+                <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#handleSiguienteAction" styleClass="nav-button" text="❯" />
+            </children>
             <BorderPane.margin>
-                <Insets bottom="25.0" /> </BorderPane.margin>
+                <Insets bottom="25.0" />
+            </BorderPane.margin>
         </HBox>
     </top>
     <center>
