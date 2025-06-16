@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.example.guia.DAOs.Conexion;
+import org.example.guia.DAOs.UserSession;
 import org.example.guia.Ventanas;
 
 import java.sql.Connection;
@@ -54,7 +55,7 @@ public class AgendaController {
     private final Map<LocalDate, List<String>> eventos = new HashMap<>();
 
     /** ID del usuario autenticado (ejemplo: ID 1 = Rafael Haro). */
-    private int idUsuarioActual = 1;
+    private int idUsuarioActual = UserSession.getCurrentEmployeeId();
 
     /** Boton de volver atras */
 

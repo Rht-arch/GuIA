@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.example.guia.DAOs.UserSession;
 import org.example.guia.Ventanas;
 
 import java.io.IOException;
@@ -76,7 +77,7 @@ public class FichajeController {
                 return;
             }
 
-            idEmpleadoActual = Integer.parseInt(numEmp.getText().trim());
+            idEmpleadoActual = UserSession.getCurrentEmployeeId();
 
             // Verificación en segundo plano para no bloquear la UI
             new Thread(() -> {
