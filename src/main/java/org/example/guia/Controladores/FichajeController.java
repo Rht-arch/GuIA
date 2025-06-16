@@ -76,7 +76,7 @@ public class FichajeController {
                 return;
             }
 
-            idEmpleadoActual = Integer.parseInt(empText);
+            idEmpleadoActual = Integer.parseInt(numEmp.getText().trim());
 
             // Verificación en segundo plano para no bloquear la UI
             new Thread(() -> {

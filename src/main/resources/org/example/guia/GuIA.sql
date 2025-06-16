@@ -45,7 +45,7 @@ CREATE TABLE `empleados` (
 --
 
 INSERT INTO `empleados` (`id`, `nombre`, `apellido`, `nombre_empresa`, `correo_electronico`, `contraseña`, `codigo_pais`, `telefono`, `imagen_perfil`, `fecha_registro`) VALUES
-(1, 'Rafael', 'haro', 'Prueba', 'rafaharotello2003@gmail.com', '$2a$10$pOBlRWWd5CqjcRDZcx7jj.LU/ef6zdC6dbvrCyCjC7Ya8MdG4coq6', '+34', '658220529', NULL, '2025-05-28 23:18:38'),
+(0, 'Rafael', 'haro', 'Prueba', 'rafaharotello2003@gmail.com', '$2a$10$pOBlRWWd5CqjcRDZcx7jj.LU/ef6zdC6dbvrCyCjC7Ya8MdG4coq6', '+34', '658220529', NULL, '2025-05-28 23:18:38'),
 (2, 'Prueba', '2', 'pruebaAdmin', 'pruebaAdmin@prueba.com', '$2a$10$awsU2YceWv/8n3lCiMMXmOVAOOyaf.0KaUA.uQ4v9B3pHL4QEhmBe', '+34', '658200236', NULL, '2025-06-02 01:00:48');
 
 -- --------------------------------------------------------
