@@ -221,9 +221,8 @@ public class FichajeController {
     }
 
     @FXML
-    private void abrirConfigurarPIN() {
-        Stage stage = (Stage) configurarPin.getScene().getWindow();
-        Ventanas.cambiarVentana(stage, "Vistas/ConfigurarPin.fxml", "Configura tu PIN");
+    public void abrirConfigurarPIN() throws IOException {
+        Ventanas.mostrarVentanaModal("Vistas/ConfigurarPin.fxml", "Configura tu PIN");
     }
 
     public void volveratras(ActionEvent actionEvent) {
